@@ -73,14 +73,16 @@ class TagController extends Controller
         //
         try {
 
-            $input = $request->all();
+            $input = resolve($this->request)->all();
+
             $update = Tag::findOrFail($id);
+
             $update->update($input);
-            return redirect()->route('tag.create');
-            
+
+            return redirect()->route('tag.create')->with('message', 'Record added !');
         } catch (\Exception $e) {
 
-            return $e->getMessage();
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
