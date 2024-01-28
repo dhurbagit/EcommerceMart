@@ -93,6 +93,6 @@ class TagController extends Controller
         //
         $delete = Tag::findOrFail($id);
         $delete->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Record deleted successfully !');
     }
 }
