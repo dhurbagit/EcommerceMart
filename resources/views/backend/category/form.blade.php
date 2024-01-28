@@ -24,9 +24,13 @@
                         <label for="title" class="form-label">Category Name</label>
                         <input type="text" id="title" class="form-control" name="category_title"
                             value="{{ isset($data) ? @$data->category_title : old('category_title') }}">
-                        <div id="ltitle" class="form-text">
-                            Enter New Category Name
-                        </div>
+                        @if ($errors->any())
+                            {!! implode('', $errors->all('<div>:message</div>')) !!}
+                        @else
+                            <div id="ltitle" class="form-text">
+                                Enter New Category Name
+                            </div>
+                        @endif
                     </div>
                     <div class="form-group mb-3">
                         <label for="unit" class="form-label">Select Parent Category</label>
@@ -126,8 +130,9 @@
                                                                                 <a class="text-primary"
                                                                                     href="{{ route('categories.edit', $list->id) }}"><i
                                                                                         class="las la-pen"></i></a>
-                                                                                <a class="text-danger" data-bs-toggle="modal"
-                                                                                data-bs-target="#exampleModal{{ $list->id }}"
+                                                                                <a class="text-danger"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#exampleModal{{ $list->id }}"
                                                                                     href="javascript:void(0)"><i
                                                                                         class="las la-trash"></i></a>
                                                                             </span>
@@ -135,8 +140,8 @@
                                                                     </li>
                                                                     <!-- Modal -->
                                                                     <div class="modal fade customization_model_view"
-                                                                        id="exampleModal{{ $list->id }}" tabindex="-1"
-                                                                        aria-labelledby="exampleModalLabel"
+                                                                        id="exampleModal{{ $list->id }}"
+                                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
                                                                         aria-hidden="true">
                                                                         <div class="modal-dialog">
                                                                             <div class="modal-content">

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    protected string $request = CategoryRequest::class;
+
     /**
      * Display a listing of the resource.
      */
@@ -16,7 +20,6 @@ class CategoryController extends Controller
         //
 
         dd('index me');
-        
     }
 
     /**
@@ -34,18 +37,18 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        
-        try {          
 
-            $input = $request->all();
+        try {
+
+            $input = resolve($this->request)->all();
+
             Category::create($input);
-            return redirect()->back();
-          
-          } catch (\Exception $e) {
-          
-              return $e->getMessage();
-          }
 
+            return redirect()->back()->with('message', 'Record added !');
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -54,7 +57,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         //
-       dd('show me');
+        dd('show me');
     }
 
     /**
@@ -73,11 +76,18 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $input = $request->all();
-        $update = Category::find($id);
-        $update->update($input);
 
-        return redirect()->route('categories.create');
+        try {
+            $input = resolve($this->request)->all();
+
+            $update = Category::find($id);
+
+            $update->update($input);
+
+            return redirect()->route('categories.create')->with('message', 'Record Updated !');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -92,11 +102,15 @@ class CategoryController extends Controller
         $delete = Category::find($id);
 
         $subcategory = $delete->subCategory()->get();
-        foreach($subcategory as $list){
+
+        foreach ($subcategory as $list) {
             $list->delete();
         }
+
         $delete->delete();
-        return redirect()->back();
+
+        return redirect()->back()->with('message', 'Record deleted successfully !');
+
         // dd($subcategory);
     }
 }
