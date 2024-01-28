@@ -41,6 +41,7 @@ class CategoryController extends Controller
         try {
 
             $input = resolve($this->request)->all();
+            dd($input);
 
             Category::create($input);
 

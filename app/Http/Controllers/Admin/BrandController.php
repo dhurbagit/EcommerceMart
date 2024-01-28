@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BrandRequest;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
+    protected string $request = BrandRequest::class;
+
     /**
      * Display a listing of the resource.
      */
@@ -33,12 +36,14 @@ class BrandController extends Controller
         //
         try {
 
-            $input = $request->all();
+            $input = resolve($this->request)->all();
+
             Brand::create($input);
-            return redirect()->back();
+
+            return redirect()->back()->with('message', 'Record added !');
         } catch (\Exception $e) {
 
-            return $e->getMessage();
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -68,14 +73,16 @@ class BrandController extends Controller
         //
         try {
 
-            $input = $request->all();
+            $input = resolve($this->request)->all();
+
             $update = Brand::findOrFail($id);
+
             $update->update($input);
-            return redirect()->route('brand.create');
-            
+
+            return redirect()->route('brand.create')->with('message', 'Record Updated !');
         } catch (\Exception $e) {
 
-            return $e->getMessage();
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -87,6 +94,6 @@ class BrandController extends Controller
         //
         $delete = Brand::findOrFail($id);
         $delete->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Record deleted successfully !');
     }
 }
