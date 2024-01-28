@@ -26,4 +26,9 @@ class TagRequest extends FormRequest
             't_title' => 'required|string|max:255',
         ];
     }
+    public function messages(){
+        return[
+            't_title.required' => 'Enter Tag name',
+        ];
+    }
 }
