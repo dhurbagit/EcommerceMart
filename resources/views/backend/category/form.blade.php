@@ -32,14 +32,20 @@
                             </div>
                         @endif
                     </div>
+                    {{-- @dd($rootCategories) --}}
                     <div class="form-group mb-3">
                         <label for="unit" class="form-label">Select Parent Category</label>
                         <select class="form-select" aria-label="Default select example" name="category_id">
                             <option value="">None</option>
-                            @foreach ($categorylist as $catList)
+                            @foreach ($rootCategories as $catList)
                                 <option value="{{ $catList['id'] }}"
                                     {{ $catList['id'] == @$data->category_id ? 'selected' : '' }}>
                                     {{ $catList['category_title'] }}</option>
+                                @foreach ($catList->children as $catList)
+                                    <option value="{{ $catList['id'] }}"
+                                        {{ $catList['id'] == @$data->category_id ? 'selected' : '' }}>
+                                        --{{ $catList['category_title'] }}</option>
+                                @endforeach
                             @endforeach
                         </select>
                     </div>
@@ -60,7 +66,8 @@
                                 Product category
                             </div>
                             <ul class="list-group list-group-flush">
-                                @foreach ($categorylist as $catList)
+
+                                @foreach ($rootCategorieslist as $catList)
                                     <li class="list-group-item">
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">
@@ -119,13 +126,15 @@
                                                 </div>
                                                 <div id="collapse{{ $loop->iteration }}"
                                                     class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                    @if ($catList->subCategory()->count() > 0)
+                                                    @if ($catList->children->count() > 0)
                                                         <div class="accordion-body">
                                                             <ul>
-                                                                @foreach ($catList->subCategory()->get() as $list)
+                                                                @foreach ($catList->children as $list)
                                                                     <li>
                                                                         <div class="d-flex justify-content-between">
-                                                                            <span>{{ $list['category_title'] }}</span>
+                                                                            <span>{{ $loop->iteration }}.
+                                                                                {{ $list['category_title'] }} <span
+                                                                                    class="badge text-bg-secondary">{{ $list->children->count() }}</span></span>
                                                                             <span class="action_button_wrapper">
                                                                                 <a class="text-primary"
                                                                                     href="{{ route('categories.edit', $list->id) }}"><i
@@ -176,6 +185,68 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <ul>
+                                                                        @foreach ($list->children as $recordsList)
+                                                                            <li>
+                                                                                <div
+                                                                                    class="d-flex justify-content-between">
+                                                                                    <span>{{ $loop->iteration }}.
+                                                                                        {{ $recordsList['category_title'] }}</span>
+                                                                                    <span class="action_button_wrapper">
+                                                                                        <a class="text-primary"
+                                                                                            href="{{ route('categories.edit', $recordsList->id) }}"><i
+                                                                                                class="las la-pen"></i></a>
+                                                                                        <a class="text-danger"
+                                                                                            data-bs-toggle="modal"
+                                                                                            data-bs-target="#exampleModal{{ $recordsList->id }}"
+                                                                                            href="javascript:void(0)"><i
+                                                                                                class="las la-trash"></i></a>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </li>
+                                                                            <!-- Modal -->
+                                                                            <div class="modal fade customization_model_view"
+                                                                                id="exampleModal{{ $recordsList->id }}"
+                                                                                tabindex="-1"
+                                                                                aria-labelledby="exampleModalLabel"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h1 class="modal-title fs-5"
+                                                                                                id="exampleModalLabel">
+                                                                                                Delete
+                                                                                                Category
+                                                                                                {{ $recordsList['category_title'] }}
+                                                                                            </h1>
+                                                                                            <button type="button"
+                                                                                                class="btn-close"
+                                                                                                data-bs-dismiss="modal"
+                                                                                                aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            Are you Sure you want to delete
+                                                                                            category. You won't be able
+                                                                                            to revert back.
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button"
+                                                                                                class="btn btn-secondary"
+                                                                                                data-bs-dismiss="modal">No</button>
+                                                                                            <form method="POST"
+                                                                                                action="{{ route('categories.destroy', $recordsList->id) }}">
+                                                                                                @method('delete')
+                                                                                                @csrf
+                                                                                                <button type="submit"
+                                                                                                    class="btn btn-danger">Delete</button>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </ul>
                                                                 @endforeach
                                                             </ul>
                                                         </div>

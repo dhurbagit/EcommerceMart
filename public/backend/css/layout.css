@@ -157,3 +157,65 @@
     background-color: #ebebeb !important;
     border: none;
 }
+
+.list-group-flush ul {
+    padding-left: 0;
+}
+
+.list-group-flush ul li {
+    list-style: none;
+}
+.list-group-flush ul ul {
+    padding-left: 15px;
+}
+.last_subchild_tree {
+    padding-left: 28px;
+}
+.image_viewer{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: flex;
+}
+.in_flex_center{
+    display: flex;
+    justify-content: center;
+}
+
+.edit_Image_gallery span {
+    width: 30px;
+    height: 30px;
+    /* overflow: hidden; */
+    display: inline-block;
+    background-color: black;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.edit_Image_gallery span:not(:last-of-type) {
+    margin-right: 10px;
+}
+
+.edit_Image_gallery span img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.edit_Image_gallery span span {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    background-color: transparent;
+    left: -5px;
+    top: -12px;
+    color: #fd4c4c;
+    cursor: pointer;
+}
+.edit_Image_gallery span i {
+    position: absolute;
+    top: -7px;
+    left: -8px;
+    cursor: pointer;
+}

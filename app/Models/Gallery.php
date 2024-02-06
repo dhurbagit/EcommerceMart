@@ -13,7 +13,7 @@ class Gallery extends Model
     protected $table = 'galleries';
 
     
-    public function image(){
+    public function thumbnailImage(){
         return $this->belongsTo(Image::class,'image_id','id');
     }
 }

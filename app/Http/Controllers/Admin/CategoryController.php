@@ -41,7 +41,7 @@ class CategoryController extends Controller
         try {
 
             $input = resolve($this->request)->all();
-            dd($input);
+           
 
             Category::create($input);
 
@@ -103,9 +103,12 @@ class CategoryController extends Controller
         $delete = Category::find($id);
 
         $subcategory = $delete->subCategory()->get();
-
+        
         foreach ($subcategory as $list) {
             $list->delete();
+           foreach($list->subCategory()->get() as $rec){
+            $rec->delete();
+           }
         }
 
         $delete->delete();

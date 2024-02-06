@@ -24,9 +24,12 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('discount_type')->nullable();
             $table->string('status')->default(0);
+            $table->string('category_key')->nullable();
+            $table->foreignId('brand_id')->constrained('brands')->onDelete('CASCADE');
+            $table->json('tag_key')->nullable();
             // $table->foreignId('cat_id')->constrained('categories')->onDelete('CASCADE');
             // $table->foreignId('sub_cat_id')->constrained('sub_categories')->onDelete('CASCADE');
-            // $table->foreignId('brand_id')->constrained('brands')->onDelete('CASCADE');
+            
             // $table->foreignId('tag_id')->constrained('tags')->onDelete('CASCADE');
             $table->foreignId('image_id')->constrained('images')->onDelete('CASCADE');
             $table->timestamps();

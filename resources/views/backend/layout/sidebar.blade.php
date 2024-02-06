@@ -14,7 +14,7 @@
             </a>
             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="layout-static.html">All Product</a>
+                    <a class="nav-link" href="{{ route('products.index') }}">All Product</a>
                     <a class="nav-link" href="{{ route('products.create') }}">Add New Product</a>
                 </nav>
             </div>

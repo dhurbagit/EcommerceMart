@@ -10,225 +10,360 @@
             @include('backend.layout.pagesidebar')
         </div>
         <div class="col-lg-9">
-            <form action="{{ route('products.store') }}" method="Post" enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <div class="col-lg-8">
-                        {{-- form content START --}}
-                        <div class="product_form_wrapper">
-                            <h5>Product Information</h5>
-                            <hr>
-                            <div class="form-group">
-                                <label for="product_name" class="form-label">Product Name</label>
-                                <input type="text" id="product_name" class="form-control" name="product_name">
+            @if (isset($editlist))
+                <form action="{{ route('products.update', $editlist->id) }}" method="Post" enctype="multipart/form-data">
+                    @method('put')
+                @else
+                    <form action="{{ route('products.store') }}" method="Post" enctype="multipart/form-data">
+            @endif
+
+
+
+            @csrf
+            <div class="row">
+                <div class="col-lg-8">
+                    {{-- form content START --}}
+                    <div class="product_form_wrapper">
+                        <h5>Product Information</h5>
+                        <hr>
+                        <div class="form-group">
+                            <label for="product_name" class="form-label">Product Name</label>
+                            <input type="text" id="product_name" class="form-control" name="product_name"
+                                value="{{ isset($editlist) ? $editlist->product_name : old('product_name') }}">
+                            @if ($errors->any())
+                                <div class="text-danger">
+                                    @error('product_name')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            @else
                                 <div id="lproduct_name" class="form-text">
                                     Enter product name
                                 </div>
+                            @endif
+
+                        </div>
+                        <div class="form-group">
+                            <label for="unit" class="form-label">Unit</label>
+                            <input type="text" id="unit" class="form-control" name="unit"
+                                value="{{ isset($editlist) ? $editlist->unit : old('unit') }}">
+                            <div id="lunit" class="form-text">
+                                Enter unit (e.g KG, Pc etc)
                             </div>
-                            <div class="form-group">
-                                <label for="unit" class="form-label">Unit</label>
-                                <input type="text" id="unit" class="form-control" name="unit">
-                                <div id="lunit" class="form-text">
-                                    Enter unit (e.g KG, Pc etc)
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" id="price" class="form-control" name="price"
+                                value="{{ isset($editlist) ? $editlist->price : old('price') }}">
+
+                            @if ($errors->any())
+                                <div class="text-danger">
+                                    @error('price')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="price" class="form-label">Price</label>
-                                <input type="text" id="price" class="form-control" name="price">
+                            @else
                                 <div id="lprice" class="form-text">
                                     Enter Price
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="refundable"
-                                        name="refundable">
-                                    <label class="form-check-label" for="refundable">Refundable</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" rows="3" name="description"></textarea>
-                            </div>
-
-                            <h5>Status</h5>
-                            <hr>
-                            <div class="form-group">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="featured"
-                                        name="featured">
-                                    <label class="form-check-label" for="featured">Featured</label>
-                                </div>
-                                <div id="lfeatured" class="form-text">
-                                    If you enable this, this product will be granted as a featured product.
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="today_deal"
-                                        name="today_deal">
-                                    <label class="form-check-label" for="today_deal">Todays Deal</label>
-                                </div>
-                                <div id="ltoday_deal" class="form-text">
-                                    If you enable this, this product will be granted as a todays deal product.
-                                </div>
-                            </div>
-
-                            <h5>Flash Deal</h5>
-                            <div id="product_name" class="form-text">
-                                If you enable this, this product will be granted as a featured product.
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="flash_title" class="form-label">Add To Flash</label>
-                                <input type="text" id="flash_title" class="form-control" placeholder="Choose Flash Title"
-                                    name="flash_title">
-                            </div>
-                            <div class="form-group">
-                                <label for="discount" class="form-label">Discount</label>
-                                <input type="text" id="discount" class="form-control" placeholder="0" name="discount">
-                            </div>
-                            <div class="form-group">
-                                <label for="discount_type" class="form-label">Discount Type</label>
-                                <input type="text" id="discount_type" class="form-control"
-                                    placeholder="Choose Discount Type" name="discount_type">
-                            </div>
+                            @endif
 
                         </div>
-                        {{-- form content END --}}
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="row">
-                            <div class="col-lg-12 mb-3">
-                                <h5>Product Thumbnail</h5>
-                                <hr>
-                                {{-- single Thumbnail images  --}}
-                                <div class="product_image_wrapper mb-2">
-                                    <img id="placeholder_image" src="{{ asset('backend/assets/img/pic (2).png') }}"
-                                        alt="">
+                        <div class="form-group">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="refundable"
+                                    name="refundable"
+                                    @isset($editlist) @if ($editlist->refundable == 1) checked @endif @endisset>
+                                <label class="form-check-label" for="refundable">Refundable</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3" name="description">{{ isset($editlist) ? $editlist->description : old('description') }}</textarea>
+                            @if ($errors->any())
+                                <div class="text-danger">
+                                    @error('description')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
-                                <div class="form-group">
-                                    <input onchange="loadFile(event)" class="form-control" type="file" id="t_image"
-                                        name="t_image">
+                            @else
+                                <div id="ldescription" class="form-text">
+                                    Enter description
+                                </div>
+                            @endif
+
+                        </div>
+
+                        <h5>Status</h5>
+                        <hr>
+                        <div class="form-group">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="featured"
+                                    name="featured"
+                                    @isset($editlist) @if ($editlist->featured == 1) checked @endif @endisset>
+                                <label class="form-check-label" for="featured">Featured</label>
+                            </div>
+                            <div id="lfeatured" class="form-text">
+                                If you enable this, this product will be granted as a featured product.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="today_deal"
+                                    name="today_deal"
+                                    @isset($editlist) @if ($editlist->today_deal == 1) checked @endif @endisset>
+                                <label class="form-check-label" for="today_deal">Todays Deal</label>
+                            </div>
+                            <div id="ltoday_deal" class="form-text">
+                                If you enable this, this product will be granted as a todays deal product.
+                            </div>
+                        </div>
+
+                        <h5>Flash Deal</h5>
+                        <div id="product_name" class="form-text">
+                            If you enable this, this product will be granted as a featured product.
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="flash_title" class="form-label">Add To Flash</label>
+                            <input type="text" id="flash_title" class="form-control" placeholder="Choose Flash Title"
+                                name="flash_title"
+                                value="{{ isset($editlist) ? $editlist->flash_title : old('flash_title') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="discount" class="form-label">Discount</label>
+                            <input type="text" id="discount" class="form-control" placeholder="0" name="discount"
+                                value="{{ isset($editlist) ? $editlist->discount : old('discount') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="discount_type" class="form-label">Discount Type</label>
+                            <input type="text" id="discount_type" class="form-control"
+                                placeholder="Choose Discount Type" name="discount_type"
+                                value="{{ isset($editlist) ? $editlist->discount_type : old('discount_type') }}">
+                        </div>
+
+                    </div>
+                    {{-- form content END --}}
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-12 mb-3">
+                            <h5>Product Thumbnail</h5>
+                            <hr>
+                            {{-- single Thumbnail images  --}}
+                            <div class="product_image_wrapper mb-2">
+                                <img id="placeholder_image"
+                                    @if (isset($editlist)) src="{{ asset('uploads/' . $editlist->thumbImage['t_image']) }}"
+                                        @else
+                                        src="{{ asset('backend/assets/img/pic (2).png') }}" @endif
+                                    alt="">
+                            </div>
+                            <div class="form-group">
+                                <input onchange="loadFile(event)" class="form-control" type="file" id="t_image"
+                                    name="t_image">
+                                @if ($errors->any())
+                                    <div class="text-danger">
+                                        @error('t_image')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                @else
                                     <div id="lt_image" class="form-text">
                                         Select Thumbnail Product image
                                     </div>
-                                </div>
+                                @endif
                             </div>
-                            <div class="col-lg-12 mb-3">
-                                <h5>Product Gallery</h5>
-                                <hr>
-                                {{-- multiple images  --}}
-                                <div id="product_multiple_image_wrapper">
-                                    <div id="holder"></div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <h5>Product Gallery</h5>
+                            <hr>
+                            {{-- multiple images  --}}
+                            <div id="product_multiple_image_wrapper">
+                                <div class="edit_Image_gallery">
+                                    @isset($galleryImage)
+                                        @foreach ($galleryImage as $imageList)
+                                            <span><a data-id="{{$imageList->id}}" href="javascript:void(0)" class="delete_gallery_item"><i class="las la-times"></i></a><img src="{{ asset('uploads/' . $imageList->g_image) }}"
+                                                    alt=""></span>
+                                        @endforeach
+                                    @endisset
                                 </div>
-                                <input type="file" id="g_image" name="g_image[]" multiple class="form-control">
-                                <div id="lg_image" class="form-text">
-                                    Select multiple image for gallery
-                                </div>
+                                <div id="holder"></div>
                             </div>
-                            <div class="col-lg-12 mb-3">
-                                <div class="product_category_wrapper">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Product category
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            @foreach ($categorylist as $data)
-                                                <li class="list-group-item">
-                                                    <div class="accordion" id="accordionExample">
-                                                        <div class="accordion-item">
-                                                            <h2 class="accordion-header cat_accordian_list_wrapper">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" name=""
-                                                                        value="" id="flexCheckDefault">
-                                                                </div>
-                                                                <button class="accordion-button collapsed" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#collapse{{$data->id}}" aria-expanded="false"
-                                                                    aria-controls="collapse{{$data->id}}">
-                                                                    {{ $data->category_title }}
-                                                                </button>
-                                                            </h2>
-                                                            <div id="collapse{{$data->id}}" class="accordion-collapse collapse"
-                                                                data-bs-parent="#accordionExample">
-                                                                @if ($data->subCategory()->count() > 0)
+                            <input type="file" id="g_image" name="g_image[]" multiple class="form-control">
+                            <div id="lg_image" class="form-text">
+                                Select multiple image for gallery
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <div class="product_category_wrapper">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Product category
+                                    </div>
+
+                                    <ul class="list-group list-group-flush">
+                                        @foreach ($categorylist as $data)
+                                            <li class="list-group-item">
+                                                <div class="accordion" id="accordionExample">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header cat_accordian_list_wrapper">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    name="category_key[]" value="{{ $data->id }}"
+                                                                    id="flexCheckDefault{{ $data->id }}"
+                                                                    @isset($editlist)
+                                                                        @if (!empty(json_decode($editlist->category_key, true)))
+                                                                        @foreach (json_decode($editlist->category_key, true) as $value)
+                                                                         @if ($value == $data->id) checked @endif 
+                                                                        @endforeach
+                                                                        @endif
+                                                                        @endisset>
+                                                            </div>
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapse{{ $data->id }}"
+                                                                aria-expanded="false"
+                                                                aria-controls="collapse{{ $data->id }}">
+                                                                {{ $data->category_title }}
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapse{{ $data->id }}"
+                                                            class="accordion-collapse collapse"
+                                                            data-bs-parent="#accordionExample">
+                                                            @if ($data->subCategory()->count() > 0)
                                                                 <div class="accordion-body">
                                                                     @foreach ($data->subCategory()->get() as $list)
                                                                         <div class="form-check">
                                                                             <input class="form-check-input"
-                                                                                type="checkbox" value=""
-                                                                                id="flexCheckDefault">
+                                                                                type="checkbox"
+                                                                                value="{{ $list->id }}"
+                                                                                name="category_key[]"
+                                                                                id="flexCheckDefault{{ $list->id }}"
+                                                                                @isset($editlist)
+                                                                                    @if (!empty(json_decode($editlist->category_key, true)))
+                                                                                    @foreach (json_decode($editlist->category_key, true) as $value)
+                                                                                    @if ($value == $list->id) checked @endif 
+                                                                                    @endforeach
+                                                                                    @endif
+                                                                                    @endisset>
                                                                             <label class="form-check-label"
-                                                                                for="flexCheckDefault">
-                                                                                {{$list->category_title}}
+                                                                                for="flexCheckDefault{{ $list->id }}">
+                                                                                {{ $list->category_title }}
                                                                             </label>
                                                                         </div>
+                                                                        @foreach ($list->subCategory()->get() as $rec)
+                                                                            <div class="last_subchild_tree">
+                                                                                <div class="form-check">
+                                                                                    <input class="form-check-input"
+                                                                                        type="checkbox"
+                                                                                        value="{{ $rec->id }}"
+                                                                                        name="category_key[]"
+                                                                                        id="flexCheckDefault{{ $rec->id }}"
+                                                                                        @isset($editlist)
+                                                                                            @if (!empty(json_decode($editlist->category_key, true)))
+                                                                                            @foreach (json_decode($editlist->category_key, true) as $value)
+                                                                                             @if ($value == $rec->id) checked @endif @endforeach
+                                                                                            @endif
+                                                                                            @endisset>
+                                                                                    <label class="form-check-label"
+                                                                                        for="flexCheckDefault{{ $rec->id }}">
+                                                                                        {{ $rec->category_title }}
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
                                                                     @endforeach
                                                                 </div>
-                                                                @endif
-                                                            </div>
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
 
-                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 mb-3">
-                                <div class="product_category_wrapper">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Brand
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            @foreach ($brandlist as $data)
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <div class="product_category_wrapper" id="Brand_List_wrapper">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Brand
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        @foreach ($brandlist as $data)
                                             <li class="list-group-item">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                        {{$data->b_title}}
+                                                    <input class="form-check-input" type="checkbox"
+                                                        value="{{ $data->id }}" name="productBrand"
+                                                        id="flexCheckDefaultBrand{{ $data->id }}"
+                                                        @isset($editlist) @if ($editlist->brand_id == $data->id) checked @endif @endisset>
+                                                    <label class="form-check-label"
+                                                        for="flexCheckDefaultBrand{{ $data->id }}">
+                                                        {{ $data->b_title }}
                                                     </label>
                                                 </div>
                                             </li>
-                                            @endforeach
-                                        </ul>
+                                        @endforeach
+                                    </ul>
 
-                                    </div>
                                 </div>
+                                @if ($errors->any())
+                                    <div class="text-danger">
+                                        @error('productBrand')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                @else
+                                    <div id="lproductBrand" class="form-text">
+                                        Select General Brand or Any other brand (In default select General Brand)
+                                    </div>
+                                @endif
                             </div>
-                            <div class="col-lg-12 mb-3">
-                                <div class="product_category_wrapper">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Tag
-                                        </div>
-                                        <ul class="list-group list-group-flush">
-                                            @foreach ($taglist as $data)
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <div class="product_category_wrapper">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Tag
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        @foreach ($taglist as $data)
                                             <li class="list-group-item">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckDefault">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                        {{$data->t_title}}
+                                                    <input class="form-check-input" type="checkbox"
+                                                        value="{{ $data->id }}" name="ProductTag[]"
+                                                        id="flexCheckDefaultTag{{ $data->id }}"
+                                                        @isset($editlist)
+                                                            @if (!empty(json_decode($editlist->tag_key, true)))
+                                                            @foreach (json_decode($editlist->tag_key, true) as $value)
+                                                             @if ($value == $data->id) checked @endif @endforeach
+                                                            @endif
+                                                            @endisset>
+                                                    <label class="form-check-label"
+                                                        for="flexCheckDefaultTag{{ $data->id }}">
+                                                        {{ $data->t_title }}
                                                     </label>
                                                 </div>
                                             </li>
-                                            @endforeach
-                                        </ul>
+                                        @endforeach
+                                    </ul>
 
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </div>
                 </div>
+                <div class="col-lg-12">
+                    @if (isset($editlist))
+                        <button type="submit" class="btn btn-success" id="savebtn_wrap">update</button>
+                    @else
+                        <button type="submit" class="btn btn-success"  id="savebtn_wrap">Save</button>
+                    @endif
+
+                </div>
+            </div>
             </form>
         </div>
 
@@ -272,34 +407,28 @@
             }
         });
     </script>
-    {{-- <script>
-        function confirmation(event){
-            alert('hi');
-            event.preventDefault()
-
-            var urlToRedirect = event.currentTarget.getAttribute('href');
-
-            console.log(urlToRedirect);
-            
-            swal({
-                title : 'Are you sure you want to delete this',
-
-                text : "you won't be able to revert this delete",
-
-                icon : "warning",
-
-                buttons : true,
-
-                dangerMode : true,
-
-            }).then((willCancel){
-
-                if(willCancel){
-
-                    window.location.href = urlToRedirect ;
+    <script>
+        $("#Brand_List_wrapper .form-check label:contains(General Brand)").css("background-color", "yellow");
+    </script>
+    <script>
+        $('.delete_gallery_item').click(function(e){
+            e.preventDefault();
+            var val = $(this).attr('data-id');
+            var url = " {{ route('gallery.delete', ':val')}} ";
+            url = url.replace(':val', val);
+            console.log(url);
+            $.ajax({
+                url: url,
+                type: "delete",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success:function(res){
+                    location.reload(true);
+                    toastr.success(res);
                 }
-            })
-             
-        }
-    </script> --}}
+            });
+           
+        });
+    </script>
 @endpush

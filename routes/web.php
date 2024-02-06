@@ -24,7 +24,8 @@ Route::get('/', function () {
 
 // product
 Route::resource('product', ProductController::class)->names('products');
-
+Route::delete('gallery-delete/{id}', [ProductController::class, 'delete_gallery'])->name('gallery.delete');
+Route::post('status-option', [ProductController::class, 'status'])->name('status.save');
 
 //category
 Route::resource('category', CategoryController::class)->names('categories');

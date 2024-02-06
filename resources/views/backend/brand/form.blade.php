@@ -51,6 +51,7 @@
                                     <li class="list-group-item">
                                         <div class="d-flex align-items-center">
                                             {{ $loop->iteration }}.&nbsp;
+                                            @if($data->b_title != 'General Brand')
                                             <span class="action_button_wrapper">
                                                 <a class="text-primary" href="{{ route('brand.edit', $data->id) }}"><i
                                                         class="las la-pen"></i></a>
@@ -58,6 +59,7 @@
                                                     data-bs-target="#exampleModal{{ $data->id }}"
                                                     href="javascript:void(0)"><i class="las la-trash"></i></a>
                                             </span>
+                                            @endif
                                             <span> {{ $data['b_title'] }} </span>
                                         </div>
                                     </li>
