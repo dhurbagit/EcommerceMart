@@ -97,7 +97,6 @@
     <script>
         $(document).ready(function(){
             $('.status_action').change(function() {
-            alert('hi');
             var id = $(this).attr('data-id');
             $.ajax({
                 type: "post",

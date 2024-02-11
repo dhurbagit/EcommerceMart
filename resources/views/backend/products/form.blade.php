@@ -11,8 +11,10 @@
         </div>
         <div class="col-lg-9">
             @if (isset($editlist))
+            
                 <form action="{{ route('products.update', $editlist->id) }}" method="Post" enctype="multipart/form-data">
                     @method('put')
+
                 @else
                     <form action="{{ route('products.store') }}" method="Post" enctype="multipart/form-data">
             @endif
@@ -112,10 +114,47 @@
                                 <input class="form-check-input" type="checkbox" role="switch" id="today_deal"
                                     name="today_deal"
                                     @isset($editlist) @if ($editlist->today_deal == 1) checked @endif @endisset>
-                                <label class="form-check-label" for="today_deal">Todays Deal</label>
+                                <label class="form-check-label" for="today_deal">Todays deals</label>
                             </div>
                             <div id="ltoday_deal" class="form-text">
                                 If you enable this, this product will be granted as a todays deal product.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="sales" name="sales"
+                                    @isset($editlist) @if ($editlist->sales == 1) checked @endif @endisset>
+                                <label class="form-check-label" for="today_deal">Sales</label>
+                            </div>
+                            <div id="ltoday_deal" class="form-text">
+                                If you enable this, this product will be granted as a sales product.
+                            </div>
+                        </div>
+
+                        @php
+                            $colorVal = json_decode(isset($editlist->color));
+                        @endphp
+ 
+                        <div class="form-group">
+                            <label for="flash_title" class="form-label">Color</label>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <input type="color" id="flash_title" class="form-control"
+                                        placeholder="Choose Flash Title" name="color[]"
+                                        value="{{ isset($editlist) ? $colorVal[0] : old('color') }}" width="25px">
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="color" id="flash_title" class="form-control"
+                                        placeholder="Choose Flash Title" name="color[]"
+                                        value="{{ isset($editlist) ? $colorVal[1] : old('color') }}">
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="color" id="flash_title" class="form-control"
+                                        placeholder="Choose Flash Title" name="color[]"
+                                        value="{{ isset($editlist) ? $colorVal[2] : old('color') }}">
+                                </div>
                             </div>
                         </div>
 
@@ -182,7 +221,9 @@
                                 <div class="edit_Image_gallery">
                                     @isset($galleryImage)
                                         @foreach ($galleryImage as $imageList)
-                                            <span><a data-id="{{$imageList->id}}" href="javascript:void(0)" class="delete_gallery_item"><i class="las la-times"></i></a><img src="{{ asset('uploads/' . $imageList->g_image) }}"
+                                            <span><a data-id="{{ $imageList->id }}" href="javascript:void(0)"
+                                                    class="delete_gallery_item"><i class="las la-times"></i></a><img
+                                                    src="{{ asset('uploads/' . $imageList->g_image) }}"
                                                     alt=""></span>
                                         @endforeach
                                     @endisset
@@ -359,7 +400,7 @@
                     @if (isset($editlist))
                         <button type="submit" class="btn btn-success" id="savebtn_wrap">update</button>
                     @else
-                        <button type="submit" class="btn btn-success"  id="savebtn_wrap">Save</button>
+                        <button type="submit" class="btn btn-success" id="savebtn_wrap">Save</button>
                     @endif
 
                 </div>
@@ -411,10 +452,10 @@
         $("#Brand_List_wrapper .form-check label:contains(General Brand)").css("background-color", "yellow");
     </script>
     <script>
-        $('.delete_gallery_item').click(function(e){
+        $('.delete_gallery_item').click(function(e) {
             e.preventDefault();
             var val = $(this).attr('data-id');
-            var url = " {{ route('gallery.delete', ':val')}} ";
+            var url = " {{ route('gallery.delete', ':val') }} ";
             url = url.replace(':val', val);
             console.log(url);
             $.ajax({
@@ -423,12 +464,12 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                 },
-                success:function(res){
+                success: function(res) {
                     location.reload(true);
                     toastr.success(res);
                 }
             });
-           
+
         });
     </script>
 @endpush

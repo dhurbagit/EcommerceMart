@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\BrandRequest;
 use App\Models\Brand;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\BrandRequest;
+use App\Http\Controllers\Controller;
 
 class BrandController extends Controller
 {
@@ -37,6 +38,7 @@ class BrandController extends Controller
         try {
 
             $input = resolve($this->request)->all();
+            $input['slug'] = Str::slug($request->b_title);
 
             Brand::create($input);
 
@@ -72,10 +74,10 @@ class BrandController extends Controller
     {
         //
         try {
-
-            $input = resolve($this->request)->all();
-
             $update = Brand::findOrFail($id);
+            $input = resolve($this->request)->all();
+            $input['slug'] = Str::slug($request->b_title);
+           
 
             $update->update($input);
 

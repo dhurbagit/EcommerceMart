@@ -13,13 +13,45 @@
             <div class="row">
                 <div class="col-lg-7">
                     @if (isset($data))
-                        <form action="{{ route('categories.update', $data->id) }}" method="POST">
+                        <form action="{{ route('categories.update', $data->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @method('PUT')
                         @else
-                            <form action="{{ route('categories.store') }}" method="POST">
+                            <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                     @endif
 
                     @csrf
+                    <div class="form-group mb-3">
+                        <label for="title" class="form-label">Image</label>
+                        <div class="d-flex">
+                            <div class="input-group mb-3">
+                                <input onchange="loadFile(event)" type="file" class="form-control" id="imageGroup"
+                                    name="image" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
+                            </div>
+                            <div class="image_holder_wrapper">
+                                <img @if (isset($data)) src="{{ asset('uploads/' . $data->image) }}"
+                                        @else
+                                        src="{{ asset('backend/assets/img/pic (2).png') }}" @endif
+                                    alt="" id="placeholder_image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="title" class="form-label">Icon</label>
+                        <div class="d-flex">
+                            <div class="input-group mb-3">
+
+                                <input onchange="loadFile1(event)" type="file" class="form-control" id="iconGroup"
+                                    name="icon" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
+                            </div>
+                            <div class="image_holder_wrapper">
+                                <img @if (isset($data)) src="{{ asset('uploads/' . $data->icon) }}"
+                                        @else
+                                        src="{{ asset('backend/assets/img/pic (2).png') }}" @endif
+                                    alt="" id="placeholder_image1">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group mb-3">
                         <label for="title" class="form-label">Category Name</label>
                         <input type="text" id="title" class="form-control" name="category_title"
@@ -32,7 +64,13 @@
                             </div>
                         @endif
                     </div>
-                    {{-- @dd($rootCategories) --}}
+                    <div class="form-group mb-3">
+                        <label for="sub_title" class="form-label">Sub Title</label>
+                        <input type="text" class="form-control" id="sub_title" name="sub_title"
+                        value="{{ isset($data) ? @$data->sub_title : old('sub_title') }}"
+                            placeholder="Short Title">
+                    </div>
+
                     <div class="form-group mb-3">
                         <label for="unit" class="form-label">Select Parent Category</label>
                         <select class="form-select" aria-label="Default select example" name="category_id">
@@ -48,6 +86,10 @@
                                 @endforeach
                             @endforeach
                         </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="category_description" class="form-label">Description</label>
+                        <textarea class="form-control" id="category_description" rows="3" name="description">{{ isset($data) ? @$data->description : old('description') }}</textarea>
                     </div>
                     <div class="form-group">
                         @if (isset($data))
@@ -125,7 +167,8 @@
                                                     </div>
                                                 </div>
                                                 <div id="collapse{{ $loop->iteration }}"
-                                                    class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                    class="accordion-collapse collapse"
+                                                    data-bs-parent="#accordionExample">
                                                     @if ($catList->children->count() > 0)
                                                         <div class="accordion-body">
                                                             <ul>
@@ -272,4 +315,16 @@
     </div>
 @stop
 @push('scripts')
+    <script>
+        var loadFile = function(event) {
+            var image = document.getElementById('placeholder_image');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script>
+        var loadFile1 = function(event) {
+            var image = document.getElementById('placeholder_image1');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 @endpush

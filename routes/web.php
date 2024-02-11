@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\TagController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('backend.layout.main');
 });
 

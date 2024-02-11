@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -41,6 +42,14 @@ class CategoryController extends Controller
         try {
 
             $input = resolve($this->request)->all();
+            
+            $input['slug'] = Str::slug($request->category_title);
+            if ($request->hasFile('image')) {
+                $input['image'] = $request->file('image')->store('category_images', 'uploads');
+            }
+            if ($request->hasFile('icon')) {
+                $input['icon'] = $request->file('icon')->store('category_icons', 'uploads');
+            }
            
 
             Category::create($input);
@@ -79,9 +88,23 @@ class CategoryController extends Controller
         //
 
         try {
-            $input = resolve($this->request)->all();
-
             $update = Category::find($id);
+            $input = resolve($this->request)->all();
+          
+            $input['slug'] = Str::slug($request->category_title);
+           
+            if ($request->hasFile('image')) {
+                if (file_exists(public_path("uploads/" . $update->image))) {
+                    unlink("uploads/" . $update->image);
+                }
+                $input['image'] = $request->file('image')->store('category_images', 'uploads');
+            }
+            if ($request->hasFile('icon')) {
+                if (file_exists(public_path("uploads/" . $update->icon))) {
+                    unlink("uploads/" . $update->icon);
+                }
+                $input['icon'] = $request->file('icon')->store('category_icons', 'uploads');
+            }
 
             $update->update($input);
 

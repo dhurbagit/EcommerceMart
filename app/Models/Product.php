@@ -9,26 +9,33 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['product_name', 
-    'unit', 'price', 
-    'refundable', 
-    'description', 
-    'featured', 
-    'today_deal', 
-    'flash_title', 
-    'discount', 
-    'discount_type', 
-    'status',
-    'category_key', 
-    'tag_key', 
-    'brand_id', 
-    'image_id'];
-    
+    protected $fillable = [
+        'product_name',
+        'unit', 'price',
+        'refundable',
+        'description',
+        'featured',
+        'today_deal',
+        'flash_title',
+        'discount',
+        'discount_type',
+        'status',
+        'category_key',
+        'tag_key',
+        'brand_id',
+        'image_id',
+        'slug',
+        'sales',
+        'color',
+        'rating'
+    ];
+
     protected $table = 'products';
     // public $timestamps = false;
 
-    public function thumbImage(){
-        return $this->belongsTo(Image::class,'image_id','id');
+    public function thumbImage()
+    {
+        return $this->belongsTo(Image::class, 'image_id', 'id');
     }
 
     // protected function tag_key(): Attribute {

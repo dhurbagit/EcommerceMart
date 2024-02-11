@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Tag;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TagRequest;
 use App\Http\Controllers\Controller;
@@ -36,7 +37,7 @@ class TagController extends Controller
         try {
 
             $input = resolve($this->request)->all();
-
+            $input['slug'] = Str::slug($request->t_title);
             Tag::create($input);
 
             return redirect()->back()->with('message', 'Record added !');
@@ -71,10 +72,10 @@ class TagController extends Controller
     {
         //
         try {
-
-            $input = resolve($this->request)->all();
-
             $update = Tag::findOrFail($id);
+            $input = resolve($this->request)->all();
+            $input['slug'] = Str::slug($request->t_title);
+           
 
             $update->update($input);
            

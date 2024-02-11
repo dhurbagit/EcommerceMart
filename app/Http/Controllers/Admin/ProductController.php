@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Image;
+use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
-use App\Models\Gallery;
 
 class ProductController extends Controller
 {
@@ -42,6 +43,7 @@ class ProductController extends Controller
 
         try {
             $input['product_name'] = $request->product_name;
+            $input['slug'] = Str::slug($request->product_name);
             $input['unit'] = $request->unit;
             $input['price'] = $request->price;
             $input['refundable'] = isset($request->refundable[0]) ? 1 : 0;
@@ -53,6 +55,8 @@ class ProductController extends Controller
             $input['discount_type'] = $request->discount_type;
             $input['discount_type'] = $request->discount_type;
             $input['category_key'] = json_encode($request->category_key);
+            $input['sales'] = isset($request->sales[0]) ? 1 : 0;
+            $input['color'] = json_encode($request->color);
 
 
             // creating new Thumbnail images 
@@ -115,6 +119,7 @@ class ProductController extends Controller
 
             $updateData = Product::findOrFail($id);
             $input['product_name'] = $request->product_name;
+            $input['slug'] = Str::slug($request->product_name);
             $input['unit'] = $request->unit;
             $input['price'] = $request->price;
             $input['refundable'] = isset($request->refundable[0]) ? 1 : 0;
@@ -126,6 +131,8 @@ class ProductController extends Controller
             $input['discount_type'] = $request->discount_type;
             $input['discount_type'] = $request->discount_type;
             $input['category_key'] = json_encode($request->category_key);
+            $input['sales'] = isset($request->sales[0]) ? 1 : 0;
+            $input['color'] = json_encode($request->color);
 
 
             // creating new Thumbnail images 

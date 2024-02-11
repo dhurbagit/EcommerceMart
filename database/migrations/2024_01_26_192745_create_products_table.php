@@ -14,23 +14,23 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name')->nullable();
+            $table->string('slug')->nullable();
             $table->string('unit')->nullable();
             $table->string('price')->nullable();
             $table->string('refundable')->default(0);
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('featured')->default(0);
             $table->string('today_deal')->default(0);
             $table->string('flash_title')->nullable();
             $table->string('discount')->nullable();
             $table->string('discount_type')->nullable();
             $table->string('status')->default(0);
+            $table->string('sales')->default(0);
+            $table->string('color')->nullable(0);
+            $table->string('rating')->nullable();
             $table->string('category_key')->nullable();
             $table->foreignId('brand_id')->constrained('brands')->onDelete('CASCADE');
             $table->json('tag_key')->nullable();
-            // $table->foreignId('cat_id')->constrained('categories')->onDelete('CASCADE');
-            // $table->foreignId('sub_cat_id')->constrained('sub_categories')->onDelete('CASCADE');
-            
-            // $table->foreignId('tag_id')->constrained('tags')->onDelete('CASCADE');
             $table->foreignId('image_id')->constrained('images')->onDelete('CASCADE');
             $table->timestamps();
         });
