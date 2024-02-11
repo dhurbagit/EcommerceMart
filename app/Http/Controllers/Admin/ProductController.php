@@ -30,7 +30,8 @@ class ProductController extends Controller
     public function create()
     {
         $collection = Category::all();
-        return view('backend.products.form', compact('collection'));
+        $colorVal = [];
+        return view('backend.products.form', compact('collection','colorVal'));
     }
 
     /**
@@ -102,10 +103,10 @@ class ProductController extends Controller
 
 
         $editlist = Product::findOrFail($id);
-
+        $colorVal = json_decode($editlist->color);
         $thumbnailImage = $editlist->thumbImage()->first();
         $galleryImage = $thumbnailImage->galleryimage()->get();
-        return view('backend.products.form', compact('editlist', 'galleryImage'));
+        return view('backend.products.form', compact('editlist', 'galleryImage','colorVal'));
     }
 
     /**

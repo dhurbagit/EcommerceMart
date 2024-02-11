@@ -131,31 +131,40 @@
                             </div>
                         </div>
 
-                        @php
-                            $colorVal = json_decode(isset($editlist->color));
-                        @endphp
+                        {{-- @isset($editlist)
+                            $colorVal = json_decode($editlist->color);
+                            @else
+                            $colorVal = null
+                        @endisset --}}
+
+
+                        {{-- @dd() --}}
  
                         <div class="form-group">
                             <label for="flash_title" class="form-label">Color</label>
+                            
                             <div class="row">
+                                @foreach ($colorVal as $item)
                                 <div class="col-lg-4">
                                     <input type="color" id="flash_title" class="form-control"
                                         placeholder="Choose Flash Title" name="color[]"
-                                        value="{{ isset($editlist) ? $colorVal[0] : old('color') }}" width="25px">
+                                        value="{{ $item }}" width="25px">
 
                                 </div>
-                                <div class="col-lg-4">
+                                {{-- <div class="col-lg-4">
                                     <input type="color" id="flash_title" class="form-control"
                                         placeholder="Choose Flash Title" name="color[]"
-                                        value="{{ isset($editlist) ? $colorVal[1] : old('color') }}">
+                                        value="">
 
-                                </div>
-                                <div class="col-lg-4">
+                                </div> --}}
+                                {{-- <div class="col-lg-4">
                                     <input type="color" id="flash_title" class="form-control"
                                         placeholder="Choose Flash Title" name="color[]"
                                         value="{{ isset($editlist) ? $colorVal[2] : old('color') }}">
-                                </div>
+                                </div> --}}
+                                @endforeach
                             </div>
+
                         </div>
 
                         <h5>Flash Deal</h5>
