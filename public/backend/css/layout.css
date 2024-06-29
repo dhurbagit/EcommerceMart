@@ -1,0 +1,235 @@
+.text-primary {
+    color: #6610f2;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.product-nav {
+    padding-left: 0;
+}
+
+.product-nav li {
+    list-style: none;
+}
+
+.product-nav li a {
+    text-decoration: none;
+    color: #a3a3a3;
+    padding: 5px 15px;
+    display: block;
+}
+.product-nav .active a {
+    background-color: whitesmoke;
+    border-left: 3px solid black;
+    color:black;
+}
+.product_image_wrapper {
+    height: 186px;
+    overflow: hidden;
+}
+
+.product_image_wrapper img {
+    width: 100%;
+}
+
+
+
+.product_form_wrapper .form-group {
+    margin-bottom: 15px;
+}
+.product_category_wrapper .card-header {
+    background-color: transparent;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+.product_category_wrapper .accordion-button {
+    padding: 0;
+}
+.product_category_wrapper .accordion-button:focus{
+    box-shadow: none !important;
+    background-color: transparent;
+}
+
+.product_category_wrapper .accordion-item {
+    border: none;
+}
+.product_category_wrapper .accordion-button:not(.collapse) {
+    border: none !important;
+    background-color: transparent;
+    box-shadow: none;
+    color: #2d2828;
+}
+.cat_accordian_list_wrapper {
+    display: flex;
+}
+.accordion-header.cat_accordian_list_wrapper .form-check > input {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px !important;
+}
+.create_wrap a {
+    color: #0904bd;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.create_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.create_wrap a:hover {
+    text-decoration: underline;
+}
+.product_image_wrapper {
+    width: 100%;
+    overflow: hidden;
+    height: 190px;
+    background-color: #212529;
+}
+
+.product_image_wrapper img {
+    width: 100%;
+}
+#holder span {
+    width: 30px;
+    height: 30px;
+    /* overflow: hidden; */
+    display: inline-block;
+    background-color: black;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+#holder span:not(:last-of-type) {
+    margin-right: 10px;
+}
+
+#holder span img {
+    width: 100%;
+    height: 100%;
+}
+#holder span span {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    background-color: transparent;
+    left: -5px;
+    top: -12px;
+    color: #fd4c4c;
+    cursor: pointer;
+}
+.sub_cat_list li {
+    
+    list-style: none;
+    padding-left: 15px;
+   
+}
+.sub_cat_list li:not(:first-child) {
+    border-top: 1px solid #dfdfdf;
+}
+
+.hide{
+    display: none;
+}
+
+.sub_cat_list {
+    padding-left: 0;
+}
+
+
+.action_button_wrapper a:not(:first-of-type) {
+    margin-right: 15px;
+}
+
+.customization_model_view .modal-body {
+    text-align: center;
+    font-size: 22px;
+    background-color: #ebebeb;
+}
+
+.customization_model_view .modal-footer {
+    justify-content: center;
+    background-color: #ebebeb !important;
+    border: none;
+}
+
+.list-group-flush ul {
+    padding-left: 0;
+}
+
+.list-group-flush ul li {
+    list-style: none;
+}
+.list-group-flush ul ul {
+    padding-left: 15px;
+}
+.last_subchild_tree {
+    padding-left: 28px;
+}
+.image_viewer{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: flex;
+}
+.in_flex_center{
+    display: flex;
+    justify-content: center;
+}
+
+.edit_Image_gallery span {
+    width: 30px;
+    height: 30px;
+    /* overflow: hidden; */
+    display: inline-block;
+    background-color: black;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.edit_Image_gallery span:not(:last-of-type) {
+    margin-right: 10px;
+}
+
+.edit_Image_gallery span img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.edit_Image_gallery span span {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    background-color: transparent;
+    left: -5px;
+    top: -12px;
+    color: #fd4c4c;
+    cursor: pointer;
+}
+.edit_Image_gallery span i {
+    position: absolute;
+    top: -7px;
+    left: -8px;
+    cursor: pointer;
+}
+.image_holder_wrapper {
+    width: 50px;
+    height: 37px;
+    overflow: hidden;
+    margin-left: 10px;
+    border: 1px solid #dbd6d6;
+    border-radius: 5px;
+}
+
+.image_holder_wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
